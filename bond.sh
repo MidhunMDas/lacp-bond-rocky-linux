@@ -46,7 +46,7 @@ TYPE=Bond
 BONDING_MASTER=yes
 ONBOOT=yes
 BOOTPROTO=none
-BONDING_OPTS="mode=4 miimon=100"
+BONDING_OPTS="miimon=100 mode=4 xmit_hash_policy=layer3+4"
 IPADDR=
 NETMASK=
 GATEWAY=
@@ -68,6 +68,12 @@ ONBOOT=yes
 MASTER=$BOND_NAME
 SLAVE=yes
 USERCTL=no
+EOL
+
+# Add bonding options to modprobe configuration file 
+cat <<EOL | sudo tee /etc/modprobe.d/bonding.conf
+alias bond0 bonding
+options bond0 miimon=100 mode=4 lacp_rate=1
 EOL
 
 # Bring up the interfaces (temporary)
